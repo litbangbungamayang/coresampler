@@ -95,7 +95,7 @@ class Daily_ari extends CI_Controller {
 										<div class="card-status bg-blue"></div>
 										<div class="card-body p-3 text-center">
 											<div class="text-muted mb-0">TON TEBU</div>
-											<div class="h4 m-0" id="ton_tebu">-</div>
+											<div class="h4 m-0" id="ton_tebu"><i id="iconLoading_tebu" style="margin-left: 10px" class="fa fa-spinner fa-spin"></i>-</div>
 										</div>
 									</div>
 								</div>
@@ -104,7 +104,7 @@ class Daily_ari extends CI_Controller {
 										<div class="card-status bg-blue"></div>
 										<div class="card-body p-3 text-center">
 											<div class="text-muted mb-0">HABLUR ANALISA</div>
-											<div class="h4 m-0" id="hablur_analisa">-</div>
+											<div class="h4 m-0" id="hablur_analisa"><i id="iconLoading_hablur" style="margin-left: 10px" class="fa fa-spinner fa-spin"></i>-</div>
 										</div>
 									</div>
 								</div>
@@ -113,7 +113,7 @@ class Daily_ari extends CI_Controller {
 										<div class="card-status bg-blue"></div>
 										<div class="card-body p-3 text-center">
 											<div class="text-muted mb-0">REND. ANALISA</div>
-											<div class="h4 m-0" id="rend_analisa">-</div>
+											<div class="h4 m-0" id="rend_analisa"><i id="iconLoading_rend" style="margin-left: 10px" class="fa fa-spinner fa-spin"></i>-</div>
 										</div>
 									</div>
 								</div>
