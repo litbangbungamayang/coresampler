@@ -1,0 +1,124 @@
+Looping untuk field input name
+foreach($_FILES as $key=>$file){
+  //echo $_FILES[$key]["name"];
+}
+
+$config["upload_path"] = './uploads/';
+$config['allowed_types'] = 'jpg|jpeg';
+$config['max_size'] = '200';
+$config["encrypt_name"] = TRUE;
+
+
+
+if ($this->upload->do_upload("scanKtp")){
+  //echo "Uploaded. File name = ".$this->upload->data("file_name");
+} else {
+  $error = array('error' => $this->upload->display_errors());
+  echo "Failed = ".var_dump($error);
+}
+
+
+
+function readGpx(selectedFile, onLoadCallback){
+  var fileReader = new FileReader();
+  fileReader.onload = onLoadCallback;
+  fileReader.readAsText(selectedFile);
+}
+
+$("#coba").on("click", function(){
+  var selectedFile = $("#fileGpxKebun")[0].files[0];
+  var gpxValue = "";
+  function callback(){
+    console.log("GPX value = " + gpxValue);
+    var petani = objPetani(
+      null,
+      null,
+      $("#namaPetani").val(),
+      0,
+      0
+    );
+    $("#lblFileGpxKebun").text("Pilih file");
+    arrayPetani.push(petani);
+    refreshData();
+    console.log(arrayPetani);
+    formAddPetani.reset();
+  }
+  readGpx(selectedFile, function(e){
+    gpxContent = e.target.result;
+    var formData = new FormData();
+    formData.append("gpxFile", selectedFile);
+    $.ajax ({
+      type: "POST",
+      url: "'.site_url('Rdkk_add/readGpxValue').'",
+      data: formData,
+      success: function(msg){
+        alert(msg);
+      }
+    });
+  });
+  return false;
+});
+
+
+$.ajax({
+  url: "Rdkk_add/getNamaDesa",
+  type: "GET",
+  dataType: "json",
+  success: function(response){
+    $("#namaDesa").selectize({
+      valueField: "id_wilayah",
+      labelField: "nama_wilayah",
+      sortField: "nama_wilayah",
+      searchField: "nama_wilayah",
+      maxItems: 1,
+      create: false,
+      placeholder: "Pilih nama desa",
+      options: response,
+      render: {
+        option: function (item, escape){
+          var namaKab = $.ajax({
+            url: "Rdkk_add/getNamaKabupaten",
+            type: "GET",
+            data: "idDesa=" + escape(item.id_wilayah),
+            success: function(data){
+            }
+          });
+          return "<option value = escape(item.id_wilayah)>" + escape(item.nama_wilayah) + namaKab.nama_wilayah + "</option>";
+        }
+      },
+      onBlur: function(){
+        console.log($(this)[0].getValue());
+      }
+    });
+    $("#namaDesa")[0].selectize.disable();
+  }
+});
+
+UI untuk dashboard
+
+<div class="row row-cards">
+  <div class="col-12 col-sm-12 col-lg-12">
+    <div class="card">
+      <div class="row">
+        <div class="col-4 col-sm-12 col-lg-4">
+          <div class="card-body p-3 text-center">
+            <div class="h1 m-0" id="total_luas"></div>
+            <div class="text-muted mb-4">Lahan terdaftar</div>
+          </div>
+        </div>
+        <div class="col-4 col-sm-12 col-lg-4">
+          <div class="card-body p-3 text-center">
+            <div class="h1 m-0" id="total_kelompok"></div>
+            <div class="text-muted mb-4">Jumlah Kelompok Tani</div>
+          </div>
+        </div>
+        <div class="col-4 col-sm-12 col-lg-4">
+          <div class="card-body p-3 text-center">
+            <div class="h1 m-0" id="total_petani"></div>
+            <div class="text-muted mb-4">Jumlah Petani</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
