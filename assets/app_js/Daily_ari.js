@@ -4,17 +4,25 @@ var btnDownload = $("#btnDownload");
 var lbl_tonTebu = $("#ton_tebu");
 var lbl_hablurAnalisa = $("#hablur_analisa");
 var lbl_rendAnalisa = $("#rend_analisa");
+var iconLoading_tebu = $("#iconLoading_tebu");
+var iconLoading_hablur = $("#iconLoading_hablur");
+var iconLoading_rend = $("#iconLoading_rend");
+
+hideSpinner();
 
 btnProsesData.on("click", function (){
   (dtpAwal.val() == "") ? dtpAwal.addClass("is-invalid") : dtpAwal.removeClass("is-invalid");
+  clearLabel();
   if (dtpAwal.val() != ""){
-    $tglTimbang = formatTgl(dtpAwal.datepicker("getDate")),
+    showSpinner();
+    $tglTimbang = formatTgl(dtpAwal.datepicker("getDate"));
     $.ajax({
       url: js_base_url + "Daily_ari/getDataDaily",
       type: "GET",
       dataType: "json",
       data: "tglTimbang=" + $tglTimbang,
       success: function(data){
+        hideSpinner();
         lbl_tonTebu.html(data[0].ton_tebu);
         lbl_hablurAnalisa.html(data[0].hablur_analisa);
         lbl_rendAnalisa.html(data[0].rend);
@@ -41,6 +49,24 @@ btnDownload.on("click", function(){
     });
   }
 })
+
+function clearLabel(){
+  lbl_tonTebu.html("");
+  lbl_rendAnalisa.html("");
+  lbl_hablurAnalisa.html("");
+}
+
+function hideSpinner(){
+  iconLoading_rend.hide();
+  iconLoading_tebu.hide();
+  iconLoading_hablur.hide();
+}
+
+function showSpinner(){
+  iconLoading_rend.show();
+  iconLoading_tebu.show();
+  iconLoading_hablur.show();
+}
 
 function formatTgl(dateObj){
   if(dateObj != null){
